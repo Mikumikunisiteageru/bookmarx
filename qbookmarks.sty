@@ -1,0 +1,41 @@
+% qbookmarks.sty
+% 20180106
+% Author: Yuchang Yang
+%  Email: deegir@126.com
+\ProvidesPackage{qbookmarks}[2018/01/06 package qbookmarks]
+\RequirePackage[margin=0mm]{geometry}
+\RequirePackage{hyperref}
+\RequirePackage{pdfpages}
+\newcount\lapage
+\lapage 0\relax
+\newcount\lepage
+\def\nameofthebook{input.pdf}
+\def\ch#1{%
+	\phantomsection%
+	\addcontentsline{toc}{chapter}{#1}%
+}
+\def\sec#1{%
+	\phantomsection%
+	\addcontentsline{toc}{section}{#1}%
+}
+\def\insert#1#2{%
+	\advance\lapage by 1\relax%
+	\lepage #1\relax%
+	\advance\lepage by -1\relax%
+	\ifnum\the\lapage=#1\relax\else%
+		\includepdf[fitpaper, pages={\the\lapage-\the\lepage}, fitpaper]{\nameofthebook}%
+	\fi%
+	\lapage #1\relax%
+	#2%
+	\includepdf[fitpaper, pages={#1}, fitpaper]{\nameofthebook}%
+}
+\def\cleanend{%
+	\pdfximage{\nameofthebook}%
+	\ifnum\the\lapage<\the\pdflastximagepages%
+		\insert{\the\pdflastximagepages}{}%
+	\fi%
+}
+\catcode`<=\active
+\def<#1,#2>{\insert{#2}{#1}}
+% arara: pdflatex
+% arara: pdflatex
