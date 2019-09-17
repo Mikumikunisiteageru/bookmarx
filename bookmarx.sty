@@ -1,0 +1,62 @@
+%% bookmarx.sty
+%% Copyright 2018--2019 Yuchang Yang < yang.yc.allium@gmail.com >
+%
+% This work may be distributed and/or modified under the
+% conditions of the LaTeX Project Public License, either version 1.3c
+% of this license or (at your option) any later version.
+% The latest version of this license is in
+%   http://www.latex-project.org/lppl.txt
+% and version 1.3c or later is part of all distributions of LaTeX
+% version 2005/12/01 or later.
+%
+% This work has the LPPL maintenance status `maintained'.
+% 
+% The Current Maintainer of this work is Yuchang Yang.
+%
+% This work consists of:
+%   - bookmarx.sty
+%%
+\ProvidesPackage{bookmarx}[2019/09/17 package bookmarx v 01]
+\makeatletter
+\RequirePackage{hyperref} % \phantomsection
+  \hypersetup{bookmarksopen}
+\RequirePackage[top=\z@]{geometry} % suppress vertical offset of \phantomsection
+\RequirePackage{pdfpages}
+\newcount\this@page
+  \this@page\@ne
+\newcount\next@page
+\newcount\line@depth
+  \line@depth\z@
+\def\get@sec@unit#1{%
+  \ifcase#1 chapter\or section\or subsection\or subsubsection\or subsubsubsection\fi}
+\def\book@name{input.pdf}
+  \def\bookname#1{\gdef\book@name{#1}}
+\def\bmxlevel#1{\hypersetup{bookmarksopenlevel=#1}}
+  \bmxlevel{1}
+\def\bmx@toc#1#2{%
+  \phantomsection
+  \addcontentsline{toc}{\get@sec@unit{#1}}{#2}}
+\def\add@pages#1#2{%
+  \loop\ifnum\the\this@page<#2
+    \includepdf[fitpaper,pages=\the\this@page]{\book@name}
+    \advance\this@page\@ne\repeat
+  #1}
+\def\add@rest{%
+  \pdfximage{\book@name}%
+  \next@page\the\pdflastximagepages
+  \advance\next@page\@ne
+  \add@pages\@empty\next@page}
+\catcode`\^^I\active
+\def^^I{\advance\line@depth\@ne}
+\catcode`\>\active
+\def> #1^^I{%
+  \gdef\do@add@pages{%
+    \add@pages{\bmx@toc{\the\line@depth}{#1}}{\the\next@page}%
+    \line@depth\z@}%
+  \afterassignment\do@add@pages
+  \next@page=}
+\AtBeginDocument{\begingroup\lccode`\~=`\#\lowercase{\endgroup\let~}=>\catcode`\#\active}
+\catcode`\>=12
+\AtEndDocument{\add@rest}
+\makeatother
+%% End of file `bookmarx.sty`

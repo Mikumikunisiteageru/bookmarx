@@ -1,0 +1,39 @@
+%% bookmarx-example.tex
+%% Copyright 2018--2019 Yuchang Yang < yang.yc.allium@gmail.com >
+%
+% This work may be distributed and/or modified under the
+% conditions of the LaTeX Project Public License, either version 1.3c
+% of this license or (at your option) any later version.
+% The latest version of this license is in
+%   http://www.latex-project.org/lppl.txt
+% and version 1.3c or later is part of all distributions of LaTeX
+% version 2005/12/01 or later.
+%
+% This work has the LPPL maintenance status `maintained'.
+% 
+% The Current Maintainer of this work is Yuchang Yang.
+%
+% This work consists of:
+%   bookmarx.sty, bookmarx-example.tex, bookmarx-expl-gen.tex, README.md
+%%
+% arara: pdflatex
+% arara: pdflatex
+\documentclass{article}
+\usepackage{bookmarx}
+\bookname{bookmarx-expl-gen.pdf}
+\bmxlevel{1}
+\begin{document}
+# Lorem	1
+	# Lorem ipsum sit amet	1
+	# Nam dui ligula	1
+	# Nulla malescuada	2
+	# Quisque ullamcorper	3
+	# Fusce mauris	3
+# Suspendisse	4
+	# Suspendisse vel felis	4
+	# Commondo posuere pede	4
+	# Pellentesque habitant morbi	5
+# Morbi	6
+	# Morbi luctus	6
+	# Suspendisse vitae elit	7
+\end{document}
