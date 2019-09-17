@@ -1,42 +1,25 @@
-[//]: # (qbookmarks/readme.md)
+[//]: # (bookmarx/readme.md)
 
-# qbookmarks
+# bookmarx
 
 ## Introduction
 
-This is a pdflatex package for adding bookmarks on to existing PDF files.
+This is a PDFLaTeX package for adding bookmarks on to existing PDF files.
 
 ## Usage
 
-The usage is so young, so simple and so naïve that you can get a bookmarked PDF file quickly after you type the table-of-contents manually, save, and then run `pdflatex` twice.
-
-A line in the main part of the `.tex` file looks like:
+Manually type the lines that you want to attach to a PDF file, in the following syntax:
 ~~~latex
-<\ch{CHAPTER_NAME}, PAGE_NUMBER>
-<\sec{SECTION_NAME}, PAGE_NUMBER>
-<\ch{CHAPTER_NAME}\sec{SECTION_NAME}, PAGE_NUMBER>
+# CHAPTER_NAME	PAGE_NUMBER
+	# SECTION_NAME	PAGE_NUMBER
+		# SUBSECTION_NAME	PAGE_NUMBER
+			......
 ~~~
+Each line comprises some leading tabs (determining the hierarchic depth, same as YAML), a hashtag followed by a space (comment mark in YAML), the caption text (not including tabs), a tab as separator, and the page number (the real and sequential one in the PDF file).
 
-A more complete `.tex` file example:
-~~~latex
-% arara: pdflatex
-% arara: pdflatex
-\documentclass{article}
-\usepackage{qbookmarks}
-\begin{document}
-\def\nameofthebook{The_TeXBook.pdf} % name of the input PDF file
-<\ch{The TeXbook}, 1> % mark the beginning of a chapter
-<\ch{Preface}, 6>
-<\ch{Contents}, 9>
-<\ch{1 The Name of the Game}, 11>
-<\ch{2 Book Printing versus Ordinary Typing}, 13>
-% Some more lines
-<\ch{I Index}, 467>
-<\ch{J Joining the TeX Community}, 493>
-\cleanend % copy the rest pages after the last item
-\end{document}
-~~~
+There are two defined macros in this package: `\bookname{...}` selects the input PDF file, and `\bmxlevel{...}` controls how deep the bookmark table is opened.
  
 ## Update History
 
-- 2018.1.6: ver. 2, released on Github
+- 2018.1.6: v 2, in the name of `qbookmarks`
+- 2019.9.17: v 01, renamed as `bookmarx`
